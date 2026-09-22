@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Clarity | Legal document workspace{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root { --ink:#17221f; --muted:#6b7772; --paper:#f1f4ef; --line:#dfe5df; --mint:#b8e8d2; --coral:#ef765f; --cream:#fffdf8; }
+* { box-sizing:border-box; }
+body { background:radial-gradient(circle at 90% 0%, #e3f2e8 0, transparent 28rem), var(--paper); color:var(--ink); font-family:'Manrope',sans-serif; min-height:100vh; }
+.app-shell { display:flex; min-height:100vh; }
+.sidebar { background:linear-gradient(160deg, #17221f 0%, #22322d 100%); color:#eaf2ed; display:flex; flex-direction:column; height:100vh; padding:28px 20px; position:sticky; top:0; width:250px; }
+.brand { align-items:center; color:white; display:flex; font-size:19px; font-weight:800; gap:11px; letter-spacing:-.04em; text-decoration:none; }
+.brand-mark { align-items:center; background:var(--mint); border-radius:9px; color:var(--ink); display:flex; font-family:'DM Mono',monospace; font-size:14px; height:34px; justify-content:center; width:34px; }
+.sidebar-label { color:#82908b; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.13em; margin:53px 12px 12px; text-transform:uppercase; }
+.side-link { border-radius:9px; color:#b9c6c0; display:flex; font-size:13px; font-weight:600; gap:12px; margin:3px 0; padding:12px; text-decoration:none; transition:background .2s ease, color .2s ease, transform .2s ease; }
+.side-link:hover, .side-link.active { background:#293833; color:white; transform:translateX(2px); }
+.side-icon { color:var(--mint); font-family:'DM Mono',monospace; width:16px; }
+.sidebar-user { border-top:1px solid #35443f; margin-top:auto; padding:20px 9px 0; }
+.avatar { align-items:center; background:var(--coral); border-radius:50%; color:white; display:inline-flex; font-size:12px; font-weight:800; height:34px; justify-content:center; margin-right:8px; width:34px; }
+.user-name { color:white; font-size:12px; font-weight:700; }
+.user-role { color:#93a39c; display:block; font-family:'DM Mono',monospace; font-size:10px; margin-left:43px; margin-top:-7px; }
+.main { flex:1; min-width:0; padding:34px clamp(22px, 4vw, 68px); }
+.topline { align-items:center; display:flex; justify-content:space-between; margin-bottom:42px; }
+.eyebrow { color:var(--coral); font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+.page-title { font-size:clamp(26px, 3vw, 38px); font-weight:800; letter-spacing:-.06em; margin:7px 0 0; }
+.date-stamp { color:var(--muted); font-family:'DM Mono',monospace; font-size:11px; }
+.flash { border:0; border-radius:10px; font-size:13px; margin-bottom:18px; }
+.workspace-card { background:rgba(255,253,248,.88); border:1px solid rgba(223,229,223,.9); border-radius:14px; box-shadow:0 16px 38px rgba(23,34,31,.055); }
+.card-heading { font-size:16px; font-weight:800; letter-spacing:-.03em; }
+.card-subtitle { color:var(--muted); font-size:12px; margin-top:5px; }
+.btn { border-radius:8px; font-size:12px; font-weight:700; letter-spacing:.01em; }
+.btn-primary { background:var(--ink); border-color:var(--ink); }
+.btn-primary:hover { background:#31423b; border-color:#31423b; }
+.btn-coral { background:var(--coral); border:0; color:white; font-weight:700; }
+.btn-coral:hover { background:#dc634e; color:white; }
+.form-control, .form-select { border-color:var(--line); border-radius:8px; font-size:13px; padding:10px 12px; }
+.form-control:focus, .form-select:focus { border-color:var(--ink); box-shadow:0 0 0 3px rgba(184,232,210,.7); }
+.metric { border-left:3px solid var(--mint); padding:2px 0 2px 14px; }
+.metric-value { font-size:25px; font-weight:800; letter-spacing:-.06em; }
+.metric-label { color:var(--muted); font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; }
+.table { --bs-table-bg:transparent; margin-bottom:0; }
+.table thead th { border-bottom:1px solid var(--line); color:var(--muted); font-family:'DM Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.08em; padding:14px 18px; text-transform:uppercase; }
+.table tbody td { border-bottom:1px solid #edf0eb; font-size:13px; padding:16px 18px; vertical-align:middle; }
+.table tbody tr:last-child td { border-bottom:0; }
+.file-name { font-weight:700; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.file-type { background:#e8f2ec; border-radius:5px; color:#46705c; font-family:'DM Mono',monospace; font-size:10px; padding:5px 7px; }
+.status { border-radius:20px; font-family:'DM Mono',monospace; font-size:10px; padding:6px 9px; }
+.status-parsed { background:#d8f3e4; color:#287049; }
+.status-failed { background:#ffe1db; color:#a54232; }
+.upload-zone { background:linear-gradient(110deg, #f7fbf8, #f0f8f0); border:1px dashed #a9c8b8; border-radius:11px; padding:19px; }
+.upload-zone .form-text { color:var(--muted); font-size:11px; }
+pre { background:#f3f5f0; border:1px solid var(--line); border-radius:10px; color:#34443d; font-family:'DM Mono',monospace; font-size:12px; line-height:1.7; max-height:560px; min-height:180px; overflow:auto; padding:20px; white-space:pre-wrap; word-wrap:break-word; }
+.empty-state { color:var(--muted); padding:45px 20px; text-align:center; }
+.login-layout { align-items:stretch; display:grid; grid-template-columns:1.05fr .95fr; margin:8vh auto 0; max-width:940px; overflow:hidden; }
+.login-intro { background:var(--ink); color:white; display:flex; flex-direction:column; justify-content:space-between; min-height:530px; padding:42px; position:relative; }
+.login-intro:after { border:1px solid rgba(184,232,210,.35); border-radius:50%; content:""; height:280px; position:absolute; right:-120px; top:72px; width:280px; }
+.login-intro h1 { font-size:clamp(34px, 4vw, 54px); letter-spacing:-.07em; line-height:.98; max-width:360px; position:relative; z-index:1; }
+.login-intro p { color:#b9c6c0; font-size:13px; line-height:1.7; max-width:300px; }
+.login-note { border-top:1px solid #35443f; color:#93a39c; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.08em; padding-top:18px; }
+.login-form { background:var(--cream); padding:42px; }
+.login-form .workspace-card { border:0; box-shadow:none; padding:0 !important; }
+@media (max-width:780px) { .app-shell { display:block; } .sidebar { height:auto; min-height:auto; padding:18px; position:relative; width:100%; } .sidebar-label, .sidebar-user { display:none; } .side-links { display:flex; gap:4px; margin-top:18px; overflow:auto; } .side-link { margin:0; white-space:nowrap; } .main { padding:24px 16px; } .topline { align-items:flex-start; margin-bottom:28px; } .date-stamp { display:none; } .login-layout { display:block; margin-top:4vh; } .login-intro { min-height:280px; padding:30px; } .login-intro h1 { font-size:40px; } .login-note { display:none; } .login-form { padding:30px; } }
+</style>
+</head>
+<body>
+{% if session.get('user_id') %}<div class="app-shell">
+<aside class="sidebar">
+<a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">CL</span> clarity</a>
+<div class="sidebar-label">Workspace</div>
+<nav class="side-links">
+<a class="side-link active" href="{{ url_for('dashboard') }}"><span class="side-icon">01</span> Documents</a>
+{% if session.get('role') == 'Admin' %}<a class="side-link" href="{{ url_for('users') }}"><span class="side-icon">02</span> Team access</a>{% endif %}
+</nav>
+<div class="sidebar-user"><span class="avatar">{{ session.get('username', 'U')[:1].upper() }}</span><span class="user-name">{{ session.get('username') }}</span><span class="user-role">{{ session.get('role') }}</span><a class="side-link mt-3 px-0" href="{{ url_for('logout') }}"><span class="side-icon">-&gt;</span> Sign out</a></div>
+</aside>
+<main class="main">
+{% else %}<main class="main" style="margin:0 auto; max-width:1180px; width:100%;">{% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}<div class="alert alert-{{ category }} flash">{{ message }}</div>{% endfor %}
+{% endwith %}
+{% block content %}{% endblock %}
+</main>{% if session.get('user_id') %}</div>{% endif %}
+</body>
+</html>

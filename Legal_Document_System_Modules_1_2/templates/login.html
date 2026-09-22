@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Sign in | Clarity{% endblock %}
+{% block content %}
+<div class="login-layout">
+<section class="login-intro">
+<div><a class="brand mb-5" href="{{ url_for('login') }}"><span class="brand-mark">CL</span> clarity</a><div class="eyebrow" style="color:var(--mint);">Legal document workspace</div><h1 class="mt-3">Make every file easier to trust.</h1><p class="mt-4">A focused place for your team to upload, parse, and review legal documents with confidence.</p></div>
+<div class="login-note">PRIVATE WORKSPACE / MODULES 01—02</div>
+</section>
+<section class="login-form">
+<div class="workspace-card">
+<h2 class="card-heading mb-2">Welcome back</h2>
+<p class="card-subtitle mb-4">Sign in to continue to your workspace.</p>
+<form method="post">
+<label class="form-label small fw-bold">Username</label>
+<input class="form-control mb-3" name="username" autocomplete="username" required>
+<label class="form-label small fw-bold">Password</label>
+<input class="form-control mb-4" type="password" name="password" autocomplete="current-password" required>
+<button class="btn btn-primary w-100 py-2">Continue to workspace</button>
+</form>
+<div class="mt-4 pt-3" style="border-top:1px solid var(--line); color:var(--muted); font-family:'DM Mono',monospace; font-size:10px; line-height:1.8;">DEMO ACCESS<br>admin / admin123 &nbsp; staff / staff123 &nbsp; viewer / viewer123</div>
+</div>
+</section>
+</div>
+{% endblock %}
